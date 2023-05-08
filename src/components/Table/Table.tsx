@@ -2,6 +2,8 @@ export class TableCellData {
   data: string[];
   classes: string;
   static HEADER_STYLE = "border border-slate-400 bg-slate-200";
+  static ERROR_STYLE = "bg-red-200";
+  static ACCEPT_STYLE = "bg-green-200";
 
   constructor(data: string[], classes?: string) {
     this.data = data;

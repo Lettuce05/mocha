@@ -156,16 +156,44 @@ export class LR1Graph extends LR0Graph {
         }
       }
 
-      // TODO: for each reduce item add a reduce entry for terms in lookahead set
+      // for each reduce item add a reduce entry for terms in lookahead set
       const reduceItems = this.dataNodes[Number(node.id)].filter(item => item.core.isComplete());
       for (const reduceItem of reduceItems){
-        
+        const production = LR0Item.reductionItemToProduction(`[${reduceItem.core.toString()}]`);
+        for (const lookahead of reduceItem.lookaheads) {
+          if (lookahead === "$" && reduceItem.core.item[0].lexeme === Grammar.START_NONTERM){
+            const dollarIndex = termArr.indexOf('$');
+            LR1Table[Number(node.id)][dollarIndex].data = ['accept'];
+            LR1Table[Number(node.id)][dollarIndex].classes = TableCellData.ACCEPT_STYLE;
+          } else {
+            LR1Table[Number(node.id)][termArr.indexOf(lookahead)].data.push(`reduce ${production}`);
+          }
+        }
       }
+
+      // set all empty cells as error entries
+      for (let i = 0; i < termArr.length; i++){
+        let tableCell = LR1Table[Number(node.id)][i];
+        if (tableCell.data.length === 0){
+          tableCell.data.push('error');
+        } else if (tableCell.data.length > 1){
+          tableCell.classes = TableCellData.ERROR_STYLE;
+        }
+      }
+
+      // add row state header
+      LR1Table[Number(node.id)].unshift(new TableCellData([node.id], `${TableCellData.HEADER_STYLE} sticky left-0`));
+
     }
 
-    // TODO: set all empty cells as error entries
-    // TODO: add row state header
-    // TODO: add table header
+    
+    
+    // add table header
+    const headingClasses = "z-10";
+    const tableHeaders = [new TableCellData([""], headingClasses), ...termArr.map(term => new TableCellData([term], headingClasses)), ...nonTermArr.map(term => new TableCellData([term], headingClasses))]
+    LR1Table.unshift(tableHeaders);
+
+    return LR1Table;
   }
   
 }

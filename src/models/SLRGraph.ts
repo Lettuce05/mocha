@@ -53,7 +53,7 @@ export class SLRGraph extends LR0Graph{
       }
 
       // handle errors
-      for (let i  = 0; i < term.size; i++){
+      for (let i = 0; i < term.size; i++){
         let tableCell = SLRTable[Number(node.id)][i];
         if(tableCell.data.length === 0){
           tableCell.data.push('error');
