@@ -451,12 +451,7 @@ export default class Grammar {
         let productions = this.productions.get(nextTerm.lexeme) as Production[];
         for (const production of productions) {
           const newItem = LR0Item.epsilonNewItem(nextTerm.lexeme, production);
-          // if the nextTerm of the new item is Epsilon
-          const nextEpsilon = newItem.nextIsEpsilon();
-          if (nextEpsilon) {
-            // move the dot one more time
-            newItem.moveDot();
-          }
+          
           // if the new item already exists
           if (nodes.has(newItem.toString())) {
             // get the state number of the target item
@@ -495,7 +490,7 @@ export default class Grammar {
               })
             );
             // if nextTerm of the new item is not Epsilon
-            if (!nextEpsilon) {
+            if (!newItem.isEpsilonItem()) {
               // add new item to the queue
               queue.push(newItem);
             }

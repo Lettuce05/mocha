@@ -68,12 +68,17 @@ export class LR0Item {
         isNonTerminal,
       });
     });
-    return new LR0Item([
+    let newItem = new LR0Item([
       new ItemTerm(lh, { isNonTerminal: true }),
       new ItemTerm(Grammar.PRODUCTION_ARROW, { isArrow: true }),
       new ItemTerm(Grammar.DOT, { isDot: true }),
       ...rhItemTerms,
     ]);
+
+    if (newItem.nextIsEpsilon()){
+      newItem.moveDot();
+    }
+    return newItem;
   }
 
   newItem() {
@@ -96,6 +101,28 @@ export class LR0Item {
   isComplete() {
     // check if dot is in the last index of the terms
     return this.item.findIndex((term) => term.isDot) === this.item.length - 1;
+  }
+
+  isCore() {
+    let isCore = false;
+
+    // Start Production Items are always core items
+    if (this.item[0].lexeme === Grammar.START_NONTERM){
+      return true;
+    }
+    // Epsilon terms are never core items
+    if (this.isEpsilonItem()){
+      return false;
+    }
+    if (this.item.length > 3) {
+      const thirdItem = this.item.at(2)!;
+      isCore = !thirdItem.isDot;
+    }
+    return isCore;
+  }
+
+  isEpsilonItem(){
+    return this.item.findIndex(term => term.isEpsilon) > -1;
   }
 
   static isComplete(item: string) {

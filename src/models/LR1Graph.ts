@@ -7,7 +7,7 @@ import { LR0Item } from "./LR0Item";
 import { LR1Item, LR1ItemSet } from "./LR1Item";
 import { SetUtils } from "./SetUtils";
 
-type DataEdge = {
+export type DataEdge = {
   source: string,
   target: string,
   label: ItemTerm

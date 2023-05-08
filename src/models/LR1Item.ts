@@ -33,4 +33,6 @@ export class LR1ItemSet {
     const itemSets = new Set(sets.map(set => LR1ItemSet.toString(set)));
     return itemSets.has(LR1ItemSet.toString(set));
   }
+
+  static merge(set1: LR1Item[], set2: LR1Item[])
 }
