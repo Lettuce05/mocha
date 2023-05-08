@@ -7,6 +7,7 @@ import { TableCellData } from "../components/Table/Table";
 import { GRAMMAR_INPUT } from "../types";
 import { GrammarInput } from "./GrammarInput";
 import { ItemTerm } from "./ItemTerm";
+import { LALR1Graph } from "./LALR1Graph";
 import { LR0Graph } from "./LR0Graph";
 import { LR0Item } from "./LR0Item";
 import { LR1Graph } from "./LR1Graph";
@@ -620,5 +621,7 @@ export default class Grammar {
     // get first, follow, and predict sets
     this.FIRSTandFOLLOW();
     this.getPredictSets();
+
+    new LALR1Graph(this);
   }
 }

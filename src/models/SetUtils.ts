@@ -24,4 +24,15 @@ export class SetUtils {
         }
         return un;
     }
+
+    static intersection(setA: Set<any>, setB: Set<any>){
+      const inter = new Set();
+      for (const item of setB){
+        if (setA.has(item)){
+          inter.add(item);
+        }
+      }
+
+      return inter;
+    }
 }

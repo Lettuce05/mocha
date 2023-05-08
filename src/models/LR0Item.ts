@@ -98,6 +98,21 @@ export class LR0Item {
     return newItem;
   }
 
+  static fromLR0Item(lr0: LR0Item) {
+    let newItems = lr0.item.map((term) => {
+      const { isEpsilon, isTerminal, isNonTerminal, isArrow, isDot } = term;
+      return new ItemTerm(term.lexeme, {
+        isEpsilon,
+        isTerminal,
+        isNonTerminal,
+        isArrow,
+        isDot,
+      });
+    });
+
+    return new LR0Item(newItems);
+  }
+
   isComplete() {
     // check if dot is in the last index of the terms
     return this.item.findIndex((term) => term.isDot) === this.item.length - 1;

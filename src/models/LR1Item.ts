@@ -1,4 +1,5 @@
 import { LR0Item } from "./LR0Item";
+import { SetUtils } from "./SetUtils";
 
 export class LR1Item {
   core: LR0Item;
@@ -34,5 +35,34 @@ export class LR1ItemSet {
     return itemSets.has(LR1ItemSet.toString(set));
   }
 
-  static merge(set1: LR1Item[], set2: LR1Item[])
+  static hasSameCore(set1: LR1Item[], set2: LR1Item[]){
+    const set1Core = set1.filter(item => item.core.isCore()).map(item => item.core.toString());
+    const set2Core = set2.filter(item => item.core.isCore()).map(item => item.core.toString());
+
+    return SetUtils.difference(new Set(set1Core), new Set(set2Core)).size === 0;
+  }
+
+  static merge(set1: LR1Item[], set2: LR1Item[]){
+    const newSet: LR1Item[] = [];
+    for (let i = 0; i < set1.length; i++){
+      let matchingItem = set2.find(item => item.core.toString() === set1[i].core.toString());
+      let matchingItemLookaheads = matchingItem ? matchingItem.lookaheads : new Set();
+      newSet.push(new LR1Item(
+        LR0Item.fromLR0Item(set1[i].core),
+        SetUtils.union(set1[i].lookaheads, matchingItemLookaheads)
+      ))
+    }
+
+    return newSet;
+  }
+
+  static reduceErrorExists(set: LR1Item[]){
+    let reduceItems = set.filter(item => item.core.isComplete());
+    for (const item of reduceItems){
+      if (reduceItems.some(currItem => currItem.core.toString() !== item.core.toString() && SetUtils.intersection(currItem.lookaheads, item.lookaheads).size > 0)){
+        return true;
+      }
+    }
+    return false;
+  }
 }

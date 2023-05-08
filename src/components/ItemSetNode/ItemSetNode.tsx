@@ -19,14 +19,14 @@ export default function ItemSetNode({ data }: NodeProps<NodeData>) {
         isConnectable={false}
       />
       <Handle
-        className="top-1/3"
+        className="top-1/4"
         type="source"
         id="loop"
         position={Position.Right}
         isConnectable={false}
       />
       <Handle
-        className="top-2/3"
+        className="top-3/4"
         type="target"
         id="loop"
         position={Position.Right}
@@ -71,6 +71,7 @@ type ItemSetEdgeType = {
 type LoopingEdge = {
   sourceHandle: string;
   targetHandle: string;
+  type?: string;
 };
 
 export function ItemSetEdge({ source, target, label }: ItemSetEdgeType): Edge {
@@ -81,6 +82,7 @@ export function ItemSetEdge({ source, target, label }: ItemSetEdgeType): Edge {
   if (source === target) {
     loopingEdge.sourceHandle = "loop";
     loopingEdge.targetHandle = "loop";
+    loopingEdge.type = "smoothstep";
   }
   return {
     id: `e${source}-${target}`,
@@ -91,8 +93,7 @@ export function ItemSetEdge({ source, target, label }: ItemSetEdgeType): Edge {
     labelBgStyle: { fill: "#b1b1b7" },
     labelStyle: { fontSize: "16px" },
     markerEnd: { type: MarkerType.ArrowClosed },
-    style: { strokeWidth: "3px" },
-    type: "smoothstep",
+    style: { strokeWidth: "3px", marginLeft: "10px" },
   };
 }
 
