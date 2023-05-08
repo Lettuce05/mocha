@@ -1,0 +1,17 @@
+P -> S
+SS -> S SSP
+SSP -> S SSP | ε
+S -> IS | A | B | LD
+T -> "int" | "real"
+LD -> "var" T "ID"
+B -> "begin" SS "end"
+IS -> "if" "(" RE ")" "then" | S ISP
+ISP -> "endif" | "else" SS "endif"
+A -> "ID" ":=" E
+E -> T EP
+EP -> "+" T EP | "-" T EP | ε
+T -> F TP
+TP -> "*" F TP | "/" F TP | ε
+F -> "(" E ")" | "ID" | "INTEGRAL_LITERAL" | "REAL_LITERAL"
+RE -> E REP
+REP -> "<" E | ">" E | "<=" E | ">=" E | "=" E | "!=" E
