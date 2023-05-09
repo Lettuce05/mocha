@@ -2,15 +2,12 @@ import { useRef } from "react";
 import { AppStore, LR0DFAStore, LR0Store } from "../../state";
 import { default as GrammarType } from "../../models/Grammar";
 import Select from "../Select/Select";
-import JSZip from "jszip";
 import { saveAs } from "file-saver";
 
 export default function Nav() {
   const grammar = AppStore((state) => state.grammar);
   const setGrammar = AppStore((state) => state.setGrammar);
   const setGrammarInput = AppStore((state) => state.setGrammarInput);
-  const resetLR0 = LR0Store((state) => state.resetStore);
-  const resetLR0DFA = LR0DFAStore((state) => state.resetStore);
   const importRef = useRef(null);
 
   function handleImport() {
@@ -22,13 +19,8 @@ export default function Nav() {
 
   function handleExport() {
     if (!grammar) return;
-    grammar.grammarToJSON();
-    const zip = new JSZip();
-    zip.file("grammar.txt", grammar.grammarToFile());
-    zip.file("grammar.json", grammar.grammarToJSON());
-    zip.generateAsync({ type: "blob" }).then((content) => {
-      saveAs(content, "grammar.zip");
-    });
+    let file = new Blob([grammar.grammarToFile()], {type: "text/plain;charset=utf-8"});
+    saveAs(file, "grammar.txt");
   }
 
   function handleImportSubmit() {

@@ -339,22 +339,6 @@ export default class Grammar {
     return file;
   }
 
-  grammarToJSON(): string {
-    return JSON.stringify(
-      this,
-      (key, value) => {
-        if (value instanceof Map) {
-          return Object.fromEntries(value.entries());
-        } else if (value instanceof Set) {
-          return [...value];
-        }
-
-        return value;
-      },
-      2
-    );
-  }
-
   getLL1Table() {
     // initiate first dimension of table
     let LL1Table = new Array(this.nonterminals.size);
