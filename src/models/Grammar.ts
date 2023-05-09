@@ -582,6 +582,7 @@ export default class Grammar {
 
   getLALR1() {
     this.lalr1Graph = new LALR1Graph(this);
+    this.lalr1Table = this.lalr1Graph.getTable();
   }
 
   terminals: Set<string>;

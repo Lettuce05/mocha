@@ -89,6 +89,8 @@ export const SLRStore = create(rfStateCreator);
 
 export const LR1Store = create(rfStateCreator);
 
+export const LALR1Store = create(rfStateCreator);
+
 export const RFSelector = (state: RFState) => ({
   nodes: state.nodes,
   edges: state.edges,
