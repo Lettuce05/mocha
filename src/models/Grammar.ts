@@ -580,6 +580,10 @@ export default class Grammar {
     this.lr1Table = this.lr1Graph.getTable();
   }
 
+  getLALR1() {
+    this.lalr1Graph = new LALR1Graph(this);
+  }
+
   terminals: Set<string>;
   nonterminals: Set<string>;
   productions: Map<string, Production[]>;
@@ -594,6 +598,8 @@ export default class Grammar {
   slrTable: any[] | null = null;
   lr1Graph: LR1Graph | null = null;
   lr1Table: any[] | null = null;
+  lalr1Graph: LR1Graph | null = null;
+  lalr1Table: any[] | null = null;
 
   constructor(
     terminals: Set<string>,
@@ -622,6 +628,5 @@ export default class Grammar {
     this.FIRSTandFOLLOW();
     this.getPredictSets();
 
-    new LALR1Graph(this);
   }
 }
