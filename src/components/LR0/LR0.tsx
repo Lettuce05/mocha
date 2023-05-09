@@ -5,7 +5,6 @@ import ReactFlow, {
   Controls,
   Background,
   BackgroundVariant,
-  Panel,
   Edge,
 } from "reactflow";
 import "reactflow/dist/style.css";
@@ -16,6 +15,7 @@ import { RFProOptions } from "../../types";
 
 export default function LR0() {
   const grammar = AppStore((state) => state.grammar);
+
   const {
     nodes,
     edges,

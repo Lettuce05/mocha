@@ -6,7 +6,6 @@ import ReactFlow, {
   Controls,
   Background,
   BackgroundVariant,
-  Panel,
   Edge,
 } from "reactflow";
 import "reactflow/dist/style.css";
@@ -15,7 +14,6 @@ import { LR0Graph } from "../../models/LR0Graph";
 import RFAddButton from "../RFAddButton/RFAddButton";
 import { RFProOptions } from "../../types";
 import RFHeightButton from "../RFHeightButton/RFHeightButton";
-import HeightButton from "../HeightButton/HeightButton";
 import TableHeightButton from "../TableHeightButton/TableHeightButton";
 
 export default function SLR() {
