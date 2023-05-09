@@ -40,3 +40,5 @@ export const Direction = {
   UP: "Up",
   DOWN: "Down"
 } as const;
+
+export const NODE_POSITION_DIFFERENCE = 200;

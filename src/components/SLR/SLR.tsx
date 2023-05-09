@@ -12,7 +12,7 @@ import "reactflow/dist/style.css";
 import { shallow } from "zustand/shallow";
 import { LR0Graph } from "../../models/LR0Graph";
 import RFAddButton from "../RFAddButton/RFAddButton";
-import { RFProOptions } from "../../types";
+import { NODE_POSITION_DIFFERENCE, RFProOptions } from "../../types";
 import RFHeightButton from "../RFHeightButton/RFHeightButton";
 import TableHeightButton from "../TableHeightButton/TableHeightButton";
 
@@ -89,8 +89,8 @@ export default function SLR() {
         if (newNode) {
           // add new node next to source node on graph
           if (sourceNode) {
-            newNode.position.x = sourceNode.position.x + 100;
-            newNode.position.y = sourceNode.position.y + 100;
+            newNode.position.x = sourceNode.position.x + NODE_POSITION_DIFFERENCE;
+            newNode.position.y = sourceNode.position.y + NODE_POSITION_DIFFERENCE;
           }
           newNodes.push(newNode);
         }
