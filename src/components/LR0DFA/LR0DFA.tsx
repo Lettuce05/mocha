@@ -110,9 +110,7 @@ export default function LR0DFA() {
             proOptions={RFProOptions}
           >
             {edgesLeft ? (
-              <Panel position="bottom-right">
-                <RFAddButton onClick={handleAdd} />
-              </Panel>
+              <RFAddButton onClick={handleAdd} />
             ) : null}
             <Controls />
             <Background variant={BackgroundVariant.Dots} gap={12} size={1} />

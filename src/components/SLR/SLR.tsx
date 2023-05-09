@@ -1,4 +1,4 @@
-import { AppStore, SLRStore, RFSelector } from "../../state";
+import { AppStore, SLRStore, RFSelector, RFTableStore, RFHeightSelector, RFHeights } from "../../state";
 import Grammar from "../Grammar/Grammar";
 import Table from "../Table/Table";
 import { ItemSetNodeType, nodeTypes } from "../ItemSetNode/ItemSetNode";
@@ -14,9 +14,13 @@ import { shallow } from "zustand/shallow";
 import { LR0Graph } from "../../models/LR0Graph";
 import RFAddButton from "../RFAddButton/RFAddButton";
 import { RFProOptions } from "../../types";
+import RFHeightButton from "../RFHeightButton/RFHeightButton";
+import HeightButton from "../HeightButton/HeightButton";
+import TableHeightButton from "../TableHeightButton/TableHeightButton";
 
 export default function SLR() {
   const grammar = AppStore((state) => state.grammar);
+  const {tableHeight, rfHeight} = RFTableStore(RFHeightSelector, shallow)
   const {
     nodes,
     edges,
@@ -102,7 +106,7 @@ export default function SLR() {
     <div className="flex flex-1 max-h-[calc(100vh-56px)] overflow-hidden">
       <Grammar />
       <div className="flex-1 max-h-[calc(100vh-56px)] overflow-hidden">
-        <div className="w-full h-4/6">
+        <div className={`w-full ${rfHeight} transition-[height]`}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -113,16 +117,17 @@ export default function SLR() {
             proOptions={RFProOptions}
           >
             {edgesLeft ? (
-              <Panel position="bottom-right">
-                <RFAddButton onClick={handleAdd} />
-              </Panel>
+              <RFAddButton onClick={handleAdd} />
             ) : null}
+            
+            <RFHeightButton />
             <Controls />
             <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
           </ReactFlow>
         </div>
 
-        <div className="w-full h-2/6">
+        <div className={`relative w-full ${tableHeight} transition-[height]`}>
+          <TableHeightButton />
           {grammar && tableData ? (
             <Table headers={tableHeaders} rows={tableData} />
           ): null}

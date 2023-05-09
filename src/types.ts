@@ -35,3 +35,8 @@ export type GRAMMAR_INPUT = {
 export const RFProOptions = {
   hideAttribution: true
 };
+
+export const Direction = {
+  UP: "Up",
+  DOWN: "Down"
+} as const;

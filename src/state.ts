@@ -1,5 +1,5 @@
 import { create, StateCreator } from "zustand";
-import { pages, GRAMMAR_INPUT } from "./types";
+import { pages, GRAMMAR_INPUT, Direction } from "./types";
 import { v4 } from "uuid";
 import Grammar from "./models/Grammar";
 import {
@@ -47,6 +47,30 @@ export const AppStore = create(subscribeWithSelector<AppState>((set) => ({
   setGrammar: (newGrammar) => set({ grammar: newGrammar }),
   setPage: (newPage) => set({ page: newPage }),
 })));
+
+export const RFHeights = ["h-0","h-1/6", "h-2/6", "h-3/6", "h-4/6", "h-5/6", "h-full"];
+
+interface RFTableHeightState {
+  tableHeight: string;
+  rfHeight: string;
+  adjustHeight: (direction: string) => void;
+}
+
+export const RFTableStore = create<RFTableHeightState>((set, get)=> ({
+  tableHeight: RFHeights[2],
+  rfHeight: RFHeights[4],
+  adjustHeight: (direction) => {
+    // default to Direction.DOWN
+    let heightChange = -1;
+    if (direction === Direction.UP){
+      heightChange = 1;
+    }
+    const oldTableHeight = RFHeights.indexOf(get().tableHeight);
+    const newTableHeight = Math.max(0, Math.min(oldTableHeight+heightChange ,RFHeights.length-1));
+    const newRFHeight = (RFHeights.length-1) - newTableHeight;
+    set({tableHeight: RFHeights[newTableHeight], rfHeight: RFHeights[newRFHeight]});
+  },
+}))
 
 const rfStateCreator: StateCreator<RFState> = (set, get) => ({
   nodes: [],
@@ -101,3 +125,5 @@ export const RFSelector = (state: RFState) => ({
   addEdge: state.addEdge,
   resetStore: state.resetStore
 });
+
+export const RFHeightSelector = ((state: RFTableHeightState) => ({tableHeight: state.tableHeight, rfHeight: state.rfHeight}))
