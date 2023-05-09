@@ -6,8 +6,7 @@ import { saveAs } from "file-saver";
 
 export default function Nav() {
   const grammar = AppStore((state) => state.grammar);
-  const setGrammar = AppStore((state) => state.setGrammar);
-  const setGrammarInput = AppStore((state) => state.setGrammarInput);
+  const setImportGrammar = AppStore((state) => state.setImportGrammar);
   const importRef = useRef(null);
 
   function handleImport() {
@@ -44,12 +43,12 @@ export default function Nav() {
             .filter((line) => line);
           // get new grammarInput from lines
           let grammarInput = GrammarType.fileToGrammarInput(fileLines);
-          setGrammarInput(grammarInput);
-          setGrammar(null);
+          setImportGrammar(grammarInput);
         };
 
         reader.readAsText(file);
       }
+      input.value = "";
     }
   }
 

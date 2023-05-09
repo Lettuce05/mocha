@@ -35,6 +35,7 @@ interface AppState {
   grammarInput: GRAMMAR_INPUT[];
   grammar: Grammar | null;
   setGrammarInput: (input: GRAMMAR_INPUT[]) => void;
+  setImportGrammar: (input: GRAMMAR_INPUT[]) => void;
   setGrammar: (newGrammar: Grammar | null) => void;
   setPage: (newPage: string) => void;
 }
@@ -46,6 +47,7 @@ export const AppStore = create(subscribeWithSelector<AppState>((set) => ({
   setGrammarInput: (input) => set({ grammarInput: input }),
   setGrammar: (newGrammar) => set({ grammar: newGrammar }),
   setPage: (newPage) => set({ page: newPage }),
+  setImportGrammar: (input) => set({ grammarInput: input, grammar: null})
 })));
 
 export const RFHeights = ["h-0","h-1/6", "h-2/6", "h-3/6", "h-4/6", "h-5/6", "h-full"];
