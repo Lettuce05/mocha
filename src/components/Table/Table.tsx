@@ -65,7 +65,7 @@ export type TableParams = {
 
 export default function Table({ headers, rows }: TableParams) {
   return (
-    <div className="w-full h-full overflow-auto my-2 pb-2.5">
+    <div className="w-full h-full overflow-auto pb-3">
       <table className="border-separate border-spacing-0 border border-slate-300">
         <thead>
           <TableRow row={headers} isHeader={true} />

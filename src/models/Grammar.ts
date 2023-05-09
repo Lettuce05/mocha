@@ -405,9 +405,9 @@ export default class Grammar {
     }
 
     let tableHeaders = [];
-    tableHeaders.push(new TableCellData([""]));
+    tableHeaders.push(new TableCellData([""], "z-10"));
     for (let i = 0; i < termArray.length; i++) {
-      tableHeaders.push(new TableCellData([termArray[i]]));
+      tableHeaders.push(new TableCellData([termArray[i]], "z-10"));
     }
 
     // add table header row to LL1Table

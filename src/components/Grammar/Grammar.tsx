@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { AppStore, LR0DFAStore, LR0Store } from "../../state";
+import { AppStore } from "../../state";
 import { GRAMMAR_INPUT } from "../../types";
 import { v4 } from "uuid";
 import GrammarInput from "../GrammarInput/GrammarInput";
@@ -10,8 +10,6 @@ export default function Grammar() {
   const grammarInput = AppStore((state) => state.grammarInput);
   const setGrammarInput = AppStore((state) => state.setGrammarInput);
   const setGrammar = AppStore((state) => state.setGrammar);
-  const resetLR0 = LR0Store((state) => state.resetStore);
-  const resetLR0DFA = LR0DFAStore((state) => state.resetStore);
   const [modalState, setModalState] = useState({
     shown: false,
     message: "",
@@ -83,13 +81,13 @@ export default function Grammar() {
       ))}
       <button
         onClick={handleAdd}
-        className="mx-auto block bg-blue-600 py-2 w-56 rounded-lg"
+        className="mx-auto block bg-black text-white hover:bg-green-500 transition-colors py-2 w-56 my-3"
       >
         Add
       </button>
       <button
         onClick={handleSave}
-        className="mx-auto block bg-blue-600 py-2 w-56 rounded-lg"
+        className="mx-auto block bg-black text-white hover:bg-green-500 transition-colors py-2 w-56 mb-3"
       >
         Save
       </button>

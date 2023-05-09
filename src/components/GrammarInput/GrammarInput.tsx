@@ -47,7 +47,7 @@ export default function GrammarInput({
         onInput={(e) => handleInput(input.id, e)}
       />
       <button
-        className="bg-gray-500 hover:bg-gray-700 py-1 px-1"
+        className="bg-black hover:bg-red-500 transition-colors py-1 px-1"
         onClick={() => handleRemove(input.id)}
       >
         <svg
@@ -56,7 +56,7 @@ export default function GrammarInput({
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-6 h-6 stroke-white"
         >
           <path
             strokeLinecap="round"

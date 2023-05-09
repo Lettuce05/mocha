@@ -64,14 +64,14 @@ export default function Nav() {
   return (
     <div className="flex items-center h-14 bg-white justify-end">
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-3"
+        className="bg-black hover:bg-blue-500 text-white transition-colors py-2 px-4 mr-3"
         onClick={handleImport}
       >
         Import
       </button>
 
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-3"
+        className="bg-black hover:bg-blue-500 text-white transition-colors py-2 px-4 mr-3"
         onClick={handleExport}
       >
         Export

@@ -12,6 +12,7 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { shallow } from "zustand/shallow";
 import { LR0Graph } from "../../models/LR0Graph";
+import RFAddButton from "../RFAddButton/RFAddButton";
 
 export default function LALR1() {
   const grammar = AppStore((state) => state.grammar);
@@ -111,25 +112,7 @@ export default function LALR1() {
           >
             {edgesLeft ? (
               <Panel position="bottom-right">
-                <button
-                  className="bg-blue-500 rounded-xl p-2"
-                  onClick={handleAdd}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 stroke-white"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4.5v15m7.5-7.5h-15"
-                    />
-                  </svg>
-                </button>
+                <RFAddButton onClick={handleAdd} />
               </Panel>
             ) : null}
             <Controls />
