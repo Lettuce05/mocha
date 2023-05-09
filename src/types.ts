@@ -31,3 +31,7 @@ export type GRAMMAR_INPUT = {
   LH: string;
   RH: string;
 };
+
+export const RFProOptions = {
+  hideAttribution: true
+};

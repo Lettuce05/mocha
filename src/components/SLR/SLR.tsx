@@ -13,6 +13,7 @@ import "reactflow/dist/style.css";
 import { shallow } from "zustand/shallow";
 import { LR0Graph } from "../../models/LR0Graph";
 import RFAddButton from "../RFAddButton/RFAddButton";
+import { RFProOptions } from "../../types";
 
 export default function SLR() {
   const grammar = AppStore((state) => state.grammar);
@@ -109,6 +110,7 @@ export default function SLR() {
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             nodeTypes={nodeTypes}
+            proOptions={RFProOptions}
           >
             {edgesLeft ? (
               <Panel position="bottom-right">
