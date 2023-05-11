@@ -1,8 +1,9 @@
 import { Edge } from "reactflow";
 import { ItemSetEdge, ItemSetNodeType } from "../components/ItemSetNode/ItemSetNode";
 import Grammar from "./Grammar";
-import { DataEdge, LR1Graph } from "./LR1Graph";
+import { LR1Graph } from "./LR1Graph";
 import { LR1Item, LR1ItemSet } from "./LR1Item";
+import { DataEdge } from "../types";
 
 export class LALR1Graph extends LR1Graph {
   constructor (grammar: Grammar){
