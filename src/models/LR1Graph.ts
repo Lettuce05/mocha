@@ -1,5 +1,6 @@
 import { ItemSetEdge, ItemSetNodeClass, ItemSetNodeType } from "../components/ItemSetNode/ItemSetNode";
 import { TableCellData } from "../components/Table/Table";
+import { DataEdge } from "../types";
 import Grammar from "./Grammar";
 import { ItemTerm } from "./ItemTerm";
 import { LR0Graph } from "./LR0Graph";
@@ -7,11 +8,7 @@ import { LR0Item } from "./LR0Item";
 import { LR1Item, LR1ItemSet } from "./LR1Item";
 import { SetUtils } from "./SetUtils";
 
-export type DataEdge = {
-  source: string,
-  target: string,
-  label: ItemTerm
-}
+
 
 export class LR1Graph extends LR0Graph {
   grammar: Grammar;

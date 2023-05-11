@@ -5,6 +5,7 @@ import LR0DFA from "./components/LR0DFA/LR0DFA";
 import LR1 from "./components/LR1/LR1";
 import SLR from "./components/SLR/SLR";
 import LALR1 from "./components/LALR1/LALR1";
+import { ItemTerm } from "./models/ItemTerm";
 
 export const pages = {
   FIRST: "First, Follow, and Predict Sets",
@@ -42,3 +43,9 @@ export const Direction = {
 } as const;
 
 export const NODE_POSITION_DIFFERENCE = 200;
+
+export type DataEdge = {
+  source: string,
+  target: string,
+  label: ItemTerm
+}

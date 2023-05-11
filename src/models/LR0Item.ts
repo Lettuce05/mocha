@@ -154,3 +154,22 @@ export class LR0Item {
     return lh.trim();
   }
 }
+
+export class LR0ItemSet {
+  static toString(set: LR0Item[]){
+    return set.reduce(
+      (setString: string, currentItem: LR0Item) => setString + currentItem.toString(),
+      ''
+    );
+  }
+
+  static has(set: LR0Item[], targetItem: LR0Item) {
+    const ItemSet = new Set(set.map(item => item.toString()));
+    return ItemSet.has(targetItem.toString());
+  }
+
+  static contains(sets: LR0Item[][], targetSet: LR0Item[]){
+    const Sets = new Set(sets.map(set => LR0ItemSet.toString(set)));
+    return Sets.has(LR0ItemSet.toString(targetSet));
+  }
+}

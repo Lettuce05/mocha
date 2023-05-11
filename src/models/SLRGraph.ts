@@ -5,7 +5,7 @@ import Grammar from "./Grammar";
 import { LR0Graph } from "./LR0Graph";
 import { LR0Item } from "./LR0Item";
 
-export class SLRGraph extends LR0Graph{
+export class SLRGraph extends LR0Graph {
   constructor(nodes: ItemSetNodeType[], edges: Edge[]) {
     super(nodes, edges);
   }
@@ -90,4 +90,6 @@ export class SLRGraph extends LR0Graph{
 
     return new SLRGraph(newGraph.nodes, newGraph.edges);
   }
+
+
 }

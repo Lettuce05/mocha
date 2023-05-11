@@ -18,6 +18,7 @@ import {
   rhsToString,
 } from "./Production";
 import { SetUtils } from "./SetUtils";
+import { SLR1Graph } from "./SLR1Graph";
 import { SLRGraph } from "./SLRGraph";
 
 export default class Grammar {
@@ -549,14 +550,17 @@ export default class Grammar {
   }
 
   getSLR() {
-    if(!this.lr0DFAGraph){
-      this.getLR0();
-      this.slrGraph = SLRGraph.from(this.lr0DFAGraph as unknown as LR0Graph);
-    } else {
-      this.slrGraph = SLRGraph.from(this.lr0DFAGraph as LR0Graph);
-    }
+    // if(!this.lr0DFAGraph){
+    //   this.getLR0();
+    //   this.slrGraph = SLRGraph.from(this.lr0DFAGraph as unknown as LR0Graph);
+    // } else {
+    //   this.slrGraph = SLRGraph.from(this.lr0DFAGraph as LR0Graph);
+    // }
 
-    this.slrTable = this.slrGraph.getTable(this, this.nonterminals, this.terminals);
+    this.slrGraph = new SLR1Graph(this);
+    console.log(this.slrGraph)
+
+    // this.slrTable = this.slrGraph.getTable(this, this.nonterminals, this.terminals);
   }
 
   getLR1() {
@@ -579,7 +583,7 @@ export default class Grammar {
   lr0Graph: LR0Graph | null = null;
   lr0DFAGraph: LR0Graph | null = null;
   lr0DFATable: any[] | null = null;
-  slrGraph: SLRGraph | null = null;
+  slrGraph: SLR1Graph | null = null;
   slrTable: any[] | null = null;
   lr1Graph: LR1Graph | null = null;
   lr1Table: any[] | null = null;
