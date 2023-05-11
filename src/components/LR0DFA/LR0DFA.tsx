@@ -43,7 +43,7 @@ export default function LR0DFA() {
   if (grammar !== null) {
     // if LR0 graph has not been generated then generate it
     if (grammar.lr0DFAGraph === null) {
-      grammar.getLR0();
+      grammar.getLR0DFA();
     }
     // if table exists then get table data
     if (grammar.lr0DFATable !== null) {

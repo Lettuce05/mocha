@@ -198,4 +198,66 @@ export class SLR1Graph extends LR0Graph {
         return SLRTable;
     }
 
+    getLR0Table(){
+        const LR0Table: TableCellData[][] = new Array(this.nodes.length);
+        const termArr = Array.from(this.grammar.terminals);
+        const nonTermArr = Array.from(this.grammar.nonterminals);
+
+        // initialize table
+        for (let i = 0; i < this.nodes.length; i++){
+            LR0Table[i] = new Array(termArr.length + nonTermArr.length);
+            for (let j = 0; j < termArr.length + nonTermArr.length; j++){
+                LR0Table[i][j] = new TableCellData([]);
+            }
+        }
+
+        for (const node of this.nodes){
+            const reduceItem = this.dataNodes[Number(node.id)].find(item => item.isComplete());
+            if (reduceItem){
+                const production = LR0Item.reductionItemToProduction(`[${reduceItem.toString()}]`);
+                for (let i = 0; i < termArr.length; i++){
+                    LR0Table[Number(node.id)][i].data = [`reduce ${production}`];
+                    // highlight cells red if there is more than one item (this means there is a shift/reduce or reduce/reduce error)
+                    if (this.dataNodes[Number(node.id)].length > 1){
+                        LR0Table[Number(node.id)][i].classes = TableCellData.ERROR_STYLE;
+                    } else if (reduceItem.item[0].lexeme === Grammar.START_NONTERM){
+                        // if LH is start nonterm then add accept to cell
+                        LR0Table[Number(node.id)][i].classes = TableCellData.ACCEPT_STYLE;
+                        LR0Table[Number(node.id)][i].data = [`accept`];
+                    } 
+                }
+            } else {
+                // handle shifts
+                let edges = this.dataEdges.filter(edge => edge.source === node.id && edge.label.isTerminal);
+                for (const edge of edges){
+                    LR0Table[Number(node.id)][termArr.indexOf(edge.label.lexeme)].data = [`shift ${edge.target}`];
+                }
+            }
+
+            // handle goto entries
+            let NTedges = this.dataEdges.filter(edge => edge.source === node.id && edge.label.isNonTerminal);
+            for (const edge of NTedges){
+                LR0Table[Number(node.id)][termArr.length+nonTermArr.indexOf(edge.label.lexeme)].data = [edge.target];
+            }
+
+            // handle errors
+            for (let i = 0; i < termArr.length; i++){
+                let tableCell = LR0Table[Number(node.id)][i];
+                if (tableCell.data.length === 0){
+                    tableCell.data = ['error'];
+                }
+            }
+
+            // add state header as first column
+            LR0Table[Number(node.id)].unshift(new TableCellData([node.id], `${TableCellData.HEADER_STYLE} sticky left-0`));
+        }
+
+        const headerClasses = "z-10";
+        const termToHeader = (term: string) => new TableCellData([term], headerClasses);
+        const tableHeaders = [new TableCellData([""], headerClasses), ...termArr.map(termToHeader), ...nonTermArr.map(termToHeader)];
+        LR0Table.unshift(tableHeaders);
+
+        return LR0Table;
+    }
+
 }

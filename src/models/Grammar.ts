@@ -545,8 +545,11 @@ export default class Grammar {
     }
 
     this.lr0Graph = new LR0Graph(Nodes, edges);
-    this.lr0DFAGraph = LR0Graph.nfa2dfa(this.lr0Graph, SetUtils.union(this.terminals, this.nonterminals))
-    this.lr0DFATable = LR0Graph.getDFATable(this.lr0DFAGraph, this.nonterminals, this.terminals);
+  }
+
+  getLR0DFA() {
+    this.lr0DFAGraph = new SLR1Graph(this);
+    this.lr0DFATable = this.lr0DFAGraph.getLR0Table();
   }
 
   getSLR() {
@@ -572,7 +575,7 @@ export default class Grammar {
   nullable: Map<string, boolean>;
   predicts: Map<string, Set<string>>;
   lr0Graph: LR0Graph | null = null;
-  lr0DFAGraph: LR0Graph | null = null;
+  lr0DFAGraph: SLR1Graph | null = null;
   lr0DFATable: any[] | null = null;
   slrGraph: SLR1Graph | null = null;
   slrTable: any[] | null = null;
