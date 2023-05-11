@@ -54,6 +54,12 @@ export default function Nav() {
 
   return (
     <div className="flex items-center h-14 bg-white justify-end">
+      <a href="https://mochadocs.anthonyromaine.com/" target="_blank" className="mr-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.75} stroke="currentColor" className="w-9 h-9">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+        </svg>
+      </a>
+
       <button
         className="bg-black hover:bg-blue-500 text-white transition-colors py-2 px-4 mr-3"
         onClick={handleImport}
