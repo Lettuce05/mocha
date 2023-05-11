@@ -550,17 +550,8 @@ export default class Grammar {
   }
 
   getSLR() {
-    // if(!this.lr0DFAGraph){
-    //   this.getLR0();
-    //   this.slrGraph = SLRGraph.from(this.lr0DFAGraph as unknown as LR0Graph);
-    // } else {
-    //   this.slrGraph = SLRGraph.from(this.lr0DFAGraph as LR0Graph);
-    // }
-
     this.slrGraph = new SLR1Graph(this);
-    console.log(this.slrGraph)
-
-    // this.slrTable = this.slrGraph.getTable(this, this.nonterminals, this.terminals);
+    this.slrTable = this.slrGraph.getTable();
   }
 
   getLR1() {

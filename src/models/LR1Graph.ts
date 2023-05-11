@@ -62,6 +62,20 @@ export class LR1Graph extends LR0Graph {
     return this.closure(W);
   }
 
+  uniqueNextTerms(set: LR1Item[]){
+    const terms: Set<string> = new Set();
+    const uniqueTerms: ItemTerm[] = [];
+
+    for (const item of set.filter(setItem => setItem.core.nextTerm())){
+      if (!terms.has(item.core.nextTerm()!.lexeme)){
+        terms.add(item.core.nextTerm()!.lexeme);
+        uniqueTerms.push(item.core.nextTerm()!);
+      }
+    }
+
+    return uniqueTerms;
+  }
+
   computeDFA(){
     const startRH = new ItemTerm(Array.from(this.grammar.productions.keys())[0], {isNonTerminal: true});
     const startItemSet = [new LR1Item(LR0Item.epsilonNewItem(Grammar.START_NONTERM, [startRH]), new Set(["$"]))];
@@ -74,7 +88,7 @@ export class LR1Graph extends LR0Graph {
       // take state out of working set and put into final states
       const I = W.shift() as LR1Item[];
       States.push(I);
-      const nextTerms = new Set(I.map(item => item.core.nextTerm()).filter(term => term));
+      const nextTerms = this.uniqueNextTerms(I);
       for (const nextTerm of nextTerms){
         // get all items with the same nextTerm for the newState
         const newState = I.filter(item => item.core.nextTerm()?.lexeme === nextTerm?.lexeme);

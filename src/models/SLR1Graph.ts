@@ -1,4 +1,5 @@
 import { ItemSetEdge, ItemSetNodeClass, ItemSetNodeType } from "../components/ItemSetNode/ItemSetNode";
+import Table, { TableCellData } from "../components/Table/Table";
 import { DataEdge } from "../types";
 import Grammar from "./Grammar";
 import { ItemTerm } from "./ItemTerm";
@@ -127,6 +128,74 @@ export class SLR1Graph extends LR0Graph {
         W = W.map(item => item.newItem());
 
         return this.closure(W);
+    }
+
+    getTable(){
+        let SLRTable: TableCellData[][] = new Array(this.nodes.length);
+        let termArr = Array.from(this.grammar.terminals);
+        let nonTermArr = Array.from(this.grammar.nonterminals);
+
+        // initialize table
+        for (let i = 0; i < this.nodes.length; i++){
+            SLRTable[i] = new Array(termArr.length + nonTermArr.length);
+            for (let j = 0; j < termArr.length + nonTermArr.length; j++){
+                SLRTable[i][j] = new TableCellData([]);
+            }
+        }
+
+        for (const node of this.nodes){
+            // get all edges with the current node as source
+            const edges = this.dataEdges.filter(edge => edge.source === node.id);
+            for (const edge of edges) {
+                if (edge.label.isTerminal){
+                    // add shift entry
+                    SLRTable[Number(node.id)][termArr.indexOf(edge.label.lexeme)].data = [`shift ${edge.target}`];
+                } else if (edge.label.isNonTerminal){
+                    // add goto entry
+                    SLRTable[Number(node.id)][termArr.length+nonTermArr.indexOf(edge.label.lexeme)].data = [edge.target];
+                }
+            }
+
+            // add reduce entry for each reduction item for each term in follow set of LH
+            const reduceItems = this.dataNodes[Number(node.id)].filter(item => item.isComplete());
+            for (const reduceItem of reduceItems){
+                const production = LR0Item.reductionItemToProduction(`[${reduceItem.toString()}]`);
+                const LH = LR0Item.extractLHfromProduction(production);
+                const followTerms: string[] = Array.from(this.grammar.follows.get(LH) || new Set());
+                
+                // handle start terminal
+                if (LH === Grammar.START_NONTERM){
+                    const dollarIndex = termArr.indexOf('$');
+                    SLRTable[Number(node.id)][dollarIndex].data = ['accept'];
+                    SLRTable[Number(node.id)][dollarIndex].classes = TableCellData.ACCEPT_STYLE;
+                }
+
+                for (const followTerm of followTerms){
+                    SLRTable[Number(node.id)][termArr.indexOf(followTerm)].data.push(`reduce ${production}`);
+                }
+            }
+
+            // if cell is empty in table then insert error
+            for (let i = 0; i < termArr.length; i++){
+                let tableCell = SLRTable[Number(node.id)][i];
+                if (tableCell.data.length === 0){
+                    tableCell.data = ['error'];
+                } else if (tableCell.data.length > 1){
+                    tableCell.classes = TableCellData.ERROR_STYLE;
+                }
+            }
+
+            // add state row header
+            SLRTable[Number(node.id)].unshift(new TableCellData([node.id], `${TableCellData.HEADER_STYLE} sticky left-0`));
+        }
+
+        // add top table header
+        const headerClasses = "z-10";
+        const termToHeader = (term: string) => new TableCellData([term], headerClasses);
+        const tableHeaders = [new TableCellData([""], headerClasses), ...termArr.map(termToHeader), ...nonTermArr.map(termToHeader)];
+        SLRTable.unshift(tableHeaders);
+
+        return SLRTable;
     }
 
 }
