@@ -17,19 +17,17 @@ import {
   productionToString,
   rhsToString,
 } from "./Production";
-import { SetUtils } from "./SetUtils";
 import { SLR1Graph } from "./SLR1Graph";
-import { SLRGraph } from "./SLRGraph";
 
 export default class Grammar {
-  static TERMINAL_PATTERN = /^".+"$/;
+  static TERMINAL_PATTERN = /^("|“|”).+("|“|”)$/;
   static NONTERMINAL_PATTERN = /^[A-Z]+$/;
   static EPSILON = "\u03B5";
   static PRODUCTION_ARROW = "\u2192";
   static ALPHA = "\u03B1";
   static DOT = "•";
   static START_NONTERM = "S'";
-
+  
   static isProduction(production: string): boolean {
     let productions = production
       .trim()
